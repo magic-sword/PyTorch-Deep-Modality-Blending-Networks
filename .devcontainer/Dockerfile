@@ -2,7 +2,7 @@
 FROM magicsword0001/pytorch-jupyterlab-gpu:latest
 
 # パッケージの作成に必要
-RUN pip install setuptools,twine,wheel
+RUN pip install setuptools twine wheel
 
 # 以下のコマンドを実施し、ソースコード配布物をビルドします
 # RUN python setup.py sdist
