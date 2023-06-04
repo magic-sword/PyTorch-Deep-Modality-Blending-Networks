@@ -1,0 +1,43 @@
+
+version: '3.7'
+
+services:
+  app:
+    # Dockerfileでビルドを実行
+    build:
+      context: ../
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        # root以外のユーザを作成する
+        USERNAME: ${USERNAME:-dev}
+        GROUPNAME: ${GROUPNAME:-dev}
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    
+    # buildと併用してimageを指定すると、buildが優先されて作成されたimageに明示的な名前を付けられる
+    image: ${DOCKERHUB_ACCOUNTNAME}/${IMAGENAME:-pytorch-jupyterlab-gpu}
+
+    # コンテナを永続化して、消さないようにする
+    command: /bin/sh -c "while sleep 1000; do :; done"
+
+    ports: 
+      # jupyter_notebookへ接続するポート番号を設定
+      - 8888:8888
+
+    # コンテナ接続時に開くワークスペースをマウント 
+    volumes:
+      - ../:/workspace
+    
+    # 環境変数を設定するファイル
+    env_file:
+      - .env
+
+    # GPUを追加する
+    deploy:
+        resources:
+          reservations:
+            devices:
+              # count か device_idsを指定せず、ホスト上で利用可能な GPU すべてを使用
+              - capabilities: [gpu]
+    
+        
