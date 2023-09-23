@@ -18,7 +18,7 @@ services:
     image: ${DOCKERHUB_ACCOUNTNAME}/${IMAGENAME:-pytorch-jupyterlab-gpu}
 
     # コンテナを永続化して、消さないようにする
-    command: /bin/sh -c "while sleep 1000; do :; done"
+    # command: /bin/sh -c "while sleep 1000; do :; done"
 
     ports: 
       # jupyter_notebookへ接続するポート番号を設定

@@ -1,5 +1,6 @@
 # 作成したpytorch  バージョンは最新のものを確認
 FROM magicsword0001/pytorch-jupyterlab-gpu:latest
+USER $USERNAME
 
 # パッケージの作成に必要
 RUN pip install setuptools twine wheel
@@ -14,7 +15,7 @@ RUN pip install setuptools twine wheel
 COPY .pypirc ~/
 
 # 以下のコマンドで、テスト用PyPIへライブラリをアップロードします。
-# RUN twine upload --repository testpypi dist/*
+# RUN python -m twine upload --repository testpypi dist/*
 
 
 # The description failed to render in the default format of reStructuredText.とエラーが出た時
