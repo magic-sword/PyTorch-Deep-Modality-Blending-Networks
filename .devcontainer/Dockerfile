@@ -12,7 +12,7 @@ RUN pip install setuptools twine wheel
 # RUN  python setup.py bdist_wheel
 
 # 設定ファイルをホームディレクトリに配置
-COPY .pypirc ~/
+COPY .devcontainer/.pypirc ~/
 
 # 以下のコマンドで、テスト用PyPIへライブラリをアップロードします。
 # RUN python -m twine upload --repository testpypi dist/*
