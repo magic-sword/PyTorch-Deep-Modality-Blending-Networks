@@ -9,7 +9,21 @@ Amazing Models (Deep-Modality-Blending-Networks) package for PyTorch
 * [[4]](https://www.sphinx-doc.org/ja/master/usage/extensions/napoleon.html) sphinx.ext.napoleon -- NumPy および Google スタイルの docstring をドキュメントに取り込む
 
 # Pip Upload
+## Local
+ライブラリのアップロードをする前に、まずはローカルで動作確認をしたい
+以下のコマンドを実行することで、ローカルのsetup.pyを読み込み、ローカルのライブラリを直接インストールできる
+<pre>
+!pip install -e .
+</pre>
+
 ## Build library
+setup.pyのバージョンを更新する
+アップロードする度にバージョン更新をしてからビルドを実行し、違うバージョンでアップロードする必要がある
+<pre>
+> pytorch_dmbn.__init__.py
+__version__ = '0.0.2'
+</pre>
+
 以下のコマンドを実施し、ソースコード配布物をビルドします
 <pre>
 python setup.py sdist
@@ -28,10 +42,14 @@ PyPIは一度アップロードすると同じバージョンで再アップロ�
 <pre>
 python -m twine upload --repository testpypi dist/*
 </pre>
+「File already exists」エラーが出たら
+* setup.py(pytorch_dmbn.__init__.py)に記載のバージョンを更新したか確認する
+* バージョンを更新した後、ビルドを実行したか確認する
+* dist/フォルダに古いバージョンのファイルが残っていたら、削除する
 
 テスト用PyPIからpipでライブラリインストールを確認
 <pre>
-pip install --index-url https://test.pypi.org/simple/pytorch_dmbn
+pip install --index-url https://test.pypi.org/simple/ pytorch_dmbn
 pip uninstall pytorch_dmbn
 </pre>
 
