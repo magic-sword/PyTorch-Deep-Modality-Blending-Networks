@@ -47,7 +47,7 @@ class TimeDistributed(nn.Module):
             *L_{out} = TimeDistributedが増幅するレイヤーから、アウトプットするデータの形状(可変数)
 
         Examples:
-            Consider a batch of 32 video samples, where each sample is a 128x128 RGB image with channels_last data format,across 10 timesteps.
+            Consider a batch of 32 video samples, where each sample is a 128x128 RGB image with channels_first data format,across 10 timesteps.
             The batch input shape is (32, 10, 3, 128, 128).
             You can then use TimeDistributed to apply the same Conv2D layer to each of the 10 timesteps, independently:
 
