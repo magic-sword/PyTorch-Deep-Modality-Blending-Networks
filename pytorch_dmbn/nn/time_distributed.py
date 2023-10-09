@@ -62,7 +62,7 @@ class TimeDistributed(nn.Module):
             注意事項などを記載
 
         """
-        super(TimeDistributed, self).__init__()
+        super().__init__()
         self.layer = layer
 
     def forward(self, x):
