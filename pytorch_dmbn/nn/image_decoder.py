@@ -79,7 +79,6 @@ class ImageDecoder(nn.Module):
         initial_width = numpy.sqrt(initial_image_area / height_rate) # 初期の画像の横幅
         initial_height =  initial_image_area / initial_width # 初期の画像の高さ
         self.initial_image_size = (channels[0], int(initial_height), int(initial_width)) # 入力特徴数を初期の形に変形
-        print(self.initial_image_size)
         
         # 全結合層
         self.linear = nn.Linear(in_features=in_features, out_features=linear_features)
