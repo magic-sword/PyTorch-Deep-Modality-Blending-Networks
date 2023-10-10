@@ -1,4 +1,4 @@
-from .blending_network import BlendingEncoder
+from .blending_encoder import BlendingEncoder
 from .image_decoder import ImageDecoder
 from .image_encoder import ImageEncoder
 from .linear_encoder import LinearEncoder
