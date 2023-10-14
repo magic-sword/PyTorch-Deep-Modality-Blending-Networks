@@ -27,41 +27,41 @@ class BlendingEncoder(nn.Module):
             self,
             encoders = []
             ):
-        """BlendingNetwork
+        """BlendingEncoder
 
-        Conv2d、MaxPool2dを繰り返し実行し、画像をエンコードする層
+        複数のエンコード層を実行し、特徴量を1つにブレンドする
+        エンコーダーの特徴量は、全て加算する
+        その後、特徴量を1つ増やして、出力のターゲット時間の値を入れる
+        coefficientsの値を0にすることで、認識のエンコーダーからの入力をマスクする
 
         Args:
-            image_size (int,int): 入力画像サイズ
+            encoders (list): nn.Moduleエンコーダーのリスト
 
         Shape:
-            Input: :math:`(N, C_{in}, H_{in}, W_{in})`
-            Output: :math:`(N, C_{out})`
+            Inputs: :math:`[(N, L1_{in}), (N, L2_{in}), ...]`
+            Output: :math:`(N, L_{out}+1)`
             , where
 
         .. math::
             N = バッチデータ数
-            C_{in} = 画像データのチャンネル数(channels[0])
-            H_{in} = 画像データの高さ(image_size[0])
-            W_{in} = 画像データの幅(image_size[1])
-            C_{out} = 最終出力の全結合層の特徴数(inear_features)
+            L1_{in} = 1つめのエンコーダーの入力
+            L_{out} = 全てのエンコーダーの出力
 
         Examples:
-            Consider a batch of 32 Image samples, where each sample is a 128x128 RGB image with channels_first data format,
-            The batch input shape is (32, 3, 128, 128).
-            You can then use ImageEncoder:
+            >>> encoders = [
+                ImageEncoder(image_size = (128,128), channels = [3,32,64,64,128,128,256], linear_features = 128),
+                LinearEncoder(channels = [8,32,64,64,128,128,256,128])
+            ]
+            >>> encoders = [TimeAverageEncoder(encoder) for encoder in encoders]
+            >>> m = BlendingEncoder(encoders)
 
-            >>> inputs = torch.rand(32, 3, 128, 128)
-            >>> image_encoder = ImageEncoder(
-                    image_size = (128,128),
-                    channels = [3,32,64,64,128,128,256], 
-                    conv_kernel_size = 3,
-                    pool_kernel_size = 2,
-                    linear_features = 64 
-                )
-            >>> outputs = image_encoder(inputs)
-            >>> outputs.shape
-                torch.Size([32, 64])
+            >>> inputs = [
+                torch.rand(32, 10, 3, 128, 128),
+                torch.rand(32, 10, 8)
+            ]
+            >>> output = m(inputs=inputs, coefficients=[1,0], target=0.1)
+            >>> print(output.shape)
+                torch.Size([32, 129])
 
         Note:
             注意事項などを記載
