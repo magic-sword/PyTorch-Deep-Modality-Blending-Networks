@@ -35,6 +35,9 @@ services:
     env_file:
       - .env
 
+    # 共有メモリの容量を設定する
+    shm_size: '2gb'
+
     # GPUを追加する
     deploy:
         resources:
