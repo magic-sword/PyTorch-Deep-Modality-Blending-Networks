@@ -63,7 +63,12 @@ class BlendingEncoder(nn.Module):
                 torch.rand(32, 10, 3, 128, 128),
                 torch.rand(32, 10, 8)
             ]
-            >>> output = m(inputs=inputs, coefficients=[1,0], target=0.1)
+            >>> coefficients = [
+                torch.from_numpy(np.zeros((32, 1024))),
+                torch.from_numpy(np.ones((32, 1024))),
+            ]
+            >>> target = torch.full((32, 1), 0.1)
+            >>> output = m(inputs, coefficients, target)
             >>> print(output.shape)
                 torch.Size([32, 1024])
 
@@ -82,7 +87,7 @@ class BlendingEncoder(nn.Module):
         self.linear = nn.Linear(in_features=in_features, out_features=linear_features)
         self.relu = nn.ReLU()
 
-    def forward(self, inputs=[], coefficients=[], target=0):
+    def forward(self, inputs=[], coefficients=[], target=None):
         # エンコーダーを実行
         input_len = len(inputs)
         encords = []
@@ -90,11 +95,10 @@ class BlendingEncoder(nn.Module):
             x = inputs[i]
             x = self.encoders[i](x)
 
-            # Multiply coefficient
-            coefficient = 1
+            # アダマール積Multiply coefficient
             if (len(coefficients) > i):
-                    coefficient = coefficients[i]
-            x = torch.multiply(x, coefficient)
+                coefficient = coefficients[i]
+                x = torch.mul(x, coefficient)
             
             # エンコード結果を格納
             encords.append(x)
@@ -104,9 +108,11 @@ class BlendingEncoder(nn.Module):
             general_representation = torch.add(general_representation, encords[i]) 
 
         # concatenate target time
-        target_shape = general_representation.shape[:-1] + (1,)
-        target_tensor = torch.full(target_shape, target)
-        x = torch.concatenate((general_representation, target_tensor), dim=-1)
+        if(target == None):
+            target_shape = general_representation.shape[:-1] + (1,)
+            target = torch.full(target_shape, target)
+
+        x = torch.concatenate((general_representation, target), dim=-1)
 
         # 全結合層
         x = self.linear(x)
