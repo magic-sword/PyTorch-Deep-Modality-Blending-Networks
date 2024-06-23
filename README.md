@@ -8,6 +8,18 @@ Amazing Models (Deep-Modality-Blending-Networks) package for PyTorch
 * [[3]](https://qiita.com/c60evaporator/items/e1ecccab07a607487dcf) 【PyPI 】Pythonの自作ライブラリをpipに公開する方法
 * [[4]](https://www.sphinx-doc.org/ja/master/usage/extensions/napoleon.html) sphinx.ext.napoleon -- NumPy および Google スタイルの docstring をドキュメントに取り込む
 
+# Set Up
+
+以下の環境ファイルを用意する
+
+`.devcontainer/.env`
+
+```
+DOCKERHUB_ACCOUNTNAME='YOUR_NAME'
+IMAGENAME='pytorch_dmbn'
+COMPOSE_PROJECT_NAME='pytorch_dmbn'
+```
+
 # Pip Upload
 ## Local
 ライブラリのアップロードをする前に、まずはローカルで動作確認をしたい
