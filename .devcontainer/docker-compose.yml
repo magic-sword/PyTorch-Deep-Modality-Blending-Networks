@@ -25,7 +25,7 @@ services:
 
     ports: 
       # jupyter_notebookへ接続するポート番号を設定
-      - 8888:8888
+      - ${APP_PORT:-8888}:8888
 
     # コンテナ接続時に開くワークスペースをマウント 
     volumes:

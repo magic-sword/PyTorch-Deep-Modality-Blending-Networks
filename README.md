@@ -18,6 +18,7 @@ Amazing Models (Deep-Modality-Blending-Networks) package for PyTorch
 DOCKERHUB_ACCOUNTNAME='YOUR_NAME'
 IMAGENAME='pytorch_dmbn'
 COMPOSE_PROJECT_NAME='pytorch_dmbn'
+APP_PORT=8888
 ```
 
 # Pip Upload
