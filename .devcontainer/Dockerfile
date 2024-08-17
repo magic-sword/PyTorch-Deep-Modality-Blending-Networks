@@ -32,3 +32,7 @@ RUN pip install readme-renderer
 # 本番用PyPIへのライブラリアップロード
 # RUN twine upload --repository pypi dist/*
 # RUN pip install
+
+# MineRLのインストール
+RUN sudo apt-get update
+RUN sudo apt-get install openjdk-8-jdk -y
