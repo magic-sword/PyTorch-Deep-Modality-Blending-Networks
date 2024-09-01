@@ -36,3 +36,4 @@ RUN pip install readme-renderer
 # MineRLのインストール
 RUN sudo apt-get update
 RUN sudo apt-get install openjdk-8-jdk -y
+RUN pip install git+https://github.com/minerllabs/minerl
