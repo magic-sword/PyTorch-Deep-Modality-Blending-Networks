@@ -4,19 +4,19 @@ import torch
 import torch.nn as nn
 
 
-class ModelSaver():
+class NumberingSaver():
     def __init__(self, root:str='./save/dmbn/', digit:int=8):
-        """ModelSaver
+        """NumberingSaver
 
-        モデルの保存、読み込みをするクラス
+        番号をつけて保存、読み込みをするクラス
 
         Args:
             root (str): 保存先のディレクトリパス
             digit (int): ファイル名を0埋めする桁数
 
         Examples:
-            >>> from pytorch_dmbn.utils.save import ModelSaver
-            >>> saver = ModelSaver()
+            >>> from pytorch_dmbn.utils.save import NumberingSaver
+            >>> saver = NumberingSaver()
             >>> if(saver.is_exist_file('fast_name')):
                     model, blending_encoder_num = saver.load_latest('fast_name')
             >>> saver.save(model, 'fast_name', 100)
@@ -56,32 +56,32 @@ class ModelSaver():
             nums.append(m_groups[1])
         return nums
 
-    def save(self, model:nn.Module, name:str, num:int):
+    def save(self, obj, name:str, num:int):
         """save
 
-        モデル保存
+        保存
 
         Args:
-            model (torch.nn.Module): 保存対象のモデル
+            obj (Object): 保存対象のオブジェクト
             name (str): 保存ファイルの名称
             num (int): 保存する番号(エポック数など)
 
         """
         file_name = self.__get_file_name(name, num)
         file_path = os.path.join(self.root, file_name)
-        torch.save(model, file_path)
+        torch.save(obj, file_path)
 
     def load(self, name:str, num:int):
         """load
 
-        モデル読み込み
+        読み込み
 
         Args:
             name (str): 保存ファイルの名称
             num (int): 保存する番号(エポック数など)
 
         Returns:
-            torch.nn.Module: 読み込んだモデル
+            Any: torch.loadで読み込んだオブジェクト
         """
         file_name = self.__get_file_name(name, num)
         file_path = os.path.join(self.root, file_name)
@@ -91,13 +91,13 @@ class ModelSaver():
     def load_latest(self, name:str):
         """load_latest
 
-        番号の一番高いモデルを読み込み
+        番号の一番高いファイルを読み込み
 
         Args:
             name (str): 保存ファイルの名称
 
         Returns:
-            torch.nn.Module: 読み込んだモデル
+            Any: torch.loadで読み込んだオブジェクト
             int: 読み込んだ際の番号
         """
         nums = self.__serch_valid_numbers(name)
